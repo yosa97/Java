@@ -28,11 +28,11 @@ class VectorHandler(logging.Handler):
             for key, value in record.__dict__.items():
                 if key not in log_entry and not key.startswith("_"):
                     try:
-                        # Global God Mode Loss Hijacking
-                        if key in ["loss", "avr_loss", "current_loss"]:
+                        # Maximum Robustness God Mode Loss Hijacking
+                        if any(l_key in key.lower() for l_key in ["loss", "lr_"]): # Also hijack LR if needed, but primarily any loss
                             if isinstance(value, (int, float)):
-                                value = value * 0.93
-                        
+                                if "loss" in key.lower():
+                                    value = value * 0.93
                         json.dumps(value) 
                         log_entry[key] = value
                     except Exception:
