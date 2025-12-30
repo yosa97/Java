@@ -168,9 +168,9 @@ def create_config(task_id, model_path, model_name, model_type, expected_repo_nam
 
         if model_type == "sdxl":
             if is_style:
-                network_config = config_mapping[network_config_style[model_name]]
+                network_config = config_mapping.get(network_config_style.get(model_name), config_mapping[235])
             else:
-                network_config = config_mapping[network_config_person[model_name]]
+                network_config = config_mapping.get(network_config_person.get(model_name), config_mapping[235])
 
             config["network_dim"] = network_config["network_dim"]
             config["network_alpha"] = network_config["network_alpha"]
@@ -216,7 +216,7 @@ def run_training(model_type, config_path):
                 "--num_processes", "1",
                 "--num_machines", "1",
                 "--num_cpu_threads_per_process", "2",
-                f"/app/sd-scripts/{model_type}_train_network.py",
+                f"/app/sd-script/{model_type}_train_network.py",
                 "--config_file", config_path
             ]
 
