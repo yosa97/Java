@@ -41,7 +41,9 @@ docker run --rm --gpus all \
   --volume "$CHECKPOINTS_DIR:/cache:rw" \
   --volume "$CHECKPOINTS_DIR/datasets:/dataset:rw" \
   --volume "$OUTPUTS_DIR:/app/checkpoints/:rw" \
-  --name image-trainer-example \
+  --volume "$OUTPUTS_DIR:/app/checkpoints/:rw" \
+  --name "image-trainer-$TASK_ID" \
+  standalone-image-toolkit-trainer \
   standalone-image-toolkit-trainer \
   --task-id "$TASK_ID" \
   --model "$MODEL" \
