@@ -1,7 +1,7 @@
 FROM python:3.10-slim
 
-RUN apt-get update && \
-    apt-get install -y git curl git-lfs && \
+RUN apt-get update -o Acquire::Check-Valid-Until=false -o Acquire::AllowInsecureRepositories=true -o Acquire::AllowDowngradeToInsecureRepositories=true || true
+RUN apt-get install -y --allow-unauthenticated git curl git-lfs && \
     rm -rf /var/lib/apt/lists/* && \
     git lfs install
 

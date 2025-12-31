@@ -1,10 +1,10 @@
 #!/bin/bash
 
-TASK_ID="1c93dd95-2e89-48d9-813d-e0f521599cfd"
+TASK_ID="person-$(date +%s)"
 MODEL="Lykon/dreamshaper-xl-1-0"
 DATASET_ZIP="https://gradients.s3.eu-north-1.amazonaws.com/3089253acdbba84b_train_data.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVVZOOA7SA4UOFLPI%2F20251203%2Feu-north-1%2Fs3%2Faws4_request&X-Amz-Date=20251203T105156Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=15973465c4d9d641069294a287e92f23463ebe25286a3489ec7164ac94ad6742"
 MODEL_TYPE="sdxl"
-EXPECTED_REPO_NAME="1c93dd95-2e89-48d9-813d-e0f521599cfd-repo1"
+EXPECTED_REPO_NAME="person-repo-1"
 
 HUGGINGFACE_TOKEN="Your Huggingface Token"
 HUGGINGFACE_USERNAME="Your Huggingface Username"
