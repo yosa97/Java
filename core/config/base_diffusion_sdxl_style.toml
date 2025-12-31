@@ -39,7 +39,7 @@ training_comment = ""
 xformers = true
 
 ###### steps and epochs ######
-max_train_epochs = 16
+max_train_epochs = 32
 save_every_n_epochs = 8
 
 ###### loss function ######
@@ -52,8 +52,8 @@ gradient_accumulation_steps = 1
 ###### optimizer ######
 optimizer_type = "adamw"
 optimizer_args = [ "betas=(0.9, 0.999)", "weight_decay=1e-03", "eps=1e-08",]
-unet_lr = 0.0000452
-text_encoder_lr = 0.0000452
+unet_lr = 0.00008
+text_encoder_lr = 0.00008
 
 ###### lr scheduler ######
 lr_scheduler = "cosine"
@@ -72,6 +72,6 @@ network_dropout = 0
 caption_dropout_rate = 0
 clip_skip = 1
 max_timestep = 1000
-min_snr_gamma = 5
+min_snr_gamma = 3
 scale_weight_norms = 5
 seed = 2951032222
