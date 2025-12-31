@@ -44,7 +44,6 @@ docker run --rm --gpus all \
   --volume "$OUTPUTS_DIR:/app/checkpoints/:rw" \
   --name "image-trainer-$TASK_ID" \
   standalone-image-toolkit-trainer \
-  standalone-image-toolkit-trainer \
   --task-id "$TASK_ID" \
   --model "$MODEL" \
   --dataset-zip "$DATASET_ZIP" \
