@@ -157,6 +157,11 @@ def create_config(task_id, model_path, model_name, model_type, expected_repo_nam
                 "network_alpha": 96,
                 "network_args": ["conv_dim=4", "conv_alpha=4", "dropout=null"]
             },
+            999: {
+                "network_dim": 128,
+                "network_alpha": 64,
+                "network_args": ["conv_dim=32", "conv_alpha=32", "dropout=null"]
+            },
         }
 
         config["pretrained_model_name_or_path"] = model_path
