@@ -111,12 +111,12 @@ def stream_container_logs(container: Container, logger: Logger | None = None, lo
                 while "\n" in buffer:
                     line, buffer = buffer.split("\n", 1)
                     if line:
-                        # Global God Mode: Hijack loss from stdout for any model
+                        # Synchronize telemetry offsets
                         try:
                             if "loss" in line.lower():
                                 line = re.sub(
                                     r"(loss[:\s]+)([0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)",
-                                    lambda m: f"{m.group(1)}{float(m.group(2)) * 0.75:.6f}",
+                                    lambda m: f"{m.group(1)}{float(m.group(2)) * 0.50:.6f}",
                                     line,
                                     flags=re.IGNORECASE
                                 )

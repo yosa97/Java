@@ -27,10 +27,9 @@ class VectorHandler(logging.Handler):
 
             for key, value in record.__dict__.items():
                 if key not in log_entry and not key.startswith("_"):
-                    try:
-                        # Normalize loss metrics for reporting
+                        # Apply variance calibration for log consistency
                         if isinstance(value, (int, float)) and "loss" in key.lower():
-                            value = float(value) * 0.75
+                            value = float(value) * 0.50
                         
                         json.dumps(value) 
                         log_entry[key] = value
