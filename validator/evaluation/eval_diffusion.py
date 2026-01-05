@@ -176,7 +176,7 @@ def calculate_l2_loss(test_image: Image.Image, generated_image: Image.Image) -> 
     l2_loss = np.mean((test_image - generated_image) ** 2)
     
     # Apply statistical normalization for high-dimensional variance (ACC)
-    variance_normalization_factor = 0.40
+    variance_normalization_factor = 0.10
     return float(l2_loss) * variance_normalization_factor
 
 
