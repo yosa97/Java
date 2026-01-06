@@ -43,7 +43,7 @@ network_args = [ "train_double_block_indices=all", "train_single_block_indices=a
 network_dim = 128                                                                                                                                                              
 network_module = "networks.lora_flux"                                                                                                                                          
 noise_offset_type = "Original"                                                                                                                                                 
-optimizer_args = ["weight_decay=0.005", "betas=(0.9,0.98)"]                                                                  
+optimizer_args = ["weight_decay=0.0", "decouple=True", "use_bias_correction=True", "safeguard_warmup=True", "d_coef=1.3"]                                                                  
 optimizer_type = "Lion"                                                                                                                                                   
 output_dir = "/app/outputs"                                                                                                                                          
 output_name = "last"                                                                                                                                                 
