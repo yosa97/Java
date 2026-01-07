@@ -351,9 +351,19 @@ async def main():
 
     # Prepare dataset
     print("Preparing dataset...", flush=True)
+    
+    # Robust Path Fallback: Check /cache/datasets/ and /cache/ for the zip
+    zip_path = train_paths.get_image_training_zip_save_path(args.task_id)
+    if not os.path.exists(zip_path):
+        fallback_path = os.path.join("/cache", f"{args.task_id}_tourn.zip")
+        if os.path.exists(fallback_path):
+             print(f"--- PATH GUARD --- Dataset zip found at fallback: {fallback_path}", flush=True)
+             zip_path = fallback_path
+        else:
+             print(f"--- WARNING --- Dataset zip not found at {zip_path} or {fallback_path}. Attempting to proceed...", flush=True)
 
     prepare_dataset(
-        training_images_zip_path=train_paths.get_image_training_zip_save_path(args.task_id),
+        training_images_zip_path=zip_path,
         training_images_repeat=cst.DIFFUSION_SDXL_REPEATS if args.model_type == ImageModelType.SDXL.value else cst.DIFFUSION_FLUX_REPEATS,
         instance_prompt=cst.DIFFUSION_DEFAULT_INSTANCE_PROMPT,
         class_prompt=cst.DIFFUSION_DEFAULT_CLASS_PROMPT,
