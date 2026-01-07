@@ -193,6 +193,10 @@ def create_config(task_id, model_path, model_name, model_type, expected_repo_nam
             else:
                 network_config = config_mapping.get(network_config_person.get(model_name), config_mapping[235])
 
+            config["network_dim"] = network_config["network_dim"]
+            config["network_alpha"] = network_config["network_alpha"]
+            config["network_args"] = network_config["network_args"]
+
             # Force-Shield: Ensure Prodigy is used for SDXL Stability
             config["optimizer_type"] = "prodigy"
             config["unet_lr"] = 1.0
