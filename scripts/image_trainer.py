@@ -213,7 +213,7 @@ def create_config(task_id, model_path, model_name, model_type, expected_repo_nam
                 config["max_train_steps"] = new_steps
                 print(f"--- DURATION PROTECTION --- Flux: Dataset large ({num_images} images). Throttling steps: {original_steps} -> {new_steps}", flush=True)
 
-        # Qwen/AI-Toolkit OOM Guard
+        # Qwen/AI-Toolkit OOM Guard (Fixes SIGKILL 9)
         if model_type in ["qwen-image", "z-image"]:
             if 'config' in config and 'process' in config['config']:
                 for process in config['config']['process']:
@@ -222,7 +222,13 @@ def create_config(task_id, model_path, model_name, model_type, expected_repo_nam
                         process['model']['low_vram'] = True
                         process['model']['quantize'] = True
                         process['model']['qtype'] = 'float8'
-                        print(f"--- OOM GUARD --- Enabled Low VRAM and Quantization for {model_type}", flush=True)
+                        
+                        # Disable EMA - Huge RAM/VRAM saver for large models
+                        if 'ema_config' in process['train']:
+                            process['train']['ema_config']['use_ema'] = False
+                        
+                        # Reduce batch size as ultimate fallback if needed (currently 1)
+                        print(f"--- NUCLEAR OOM GUARD --- Enabled Low VRAM, Quantization, and Disabled EMA for {model_type}", flush=True)
 
         # Nuclear Optimizer Guard: Prevent AdamW 'decouple' crash
         opt_type = str(config.get("optimizer_type", "")).lower()
@@ -246,6 +252,11 @@ def create_config(task_id, model_path, model_name, model_type, expected_repo_nam
 
 def run_training(model_type, config_path):
     print(f"Starting training with config: {config_path}", flush=True)
+
+    # Prepare environment with RAM optimizations
+    env = os.environ.copy()
+    env["PYTORCH_ALLOC_CONF"] = "expandable_segments:True"
+    env["TOKENIZERS_PARALLELISM"] = "false"
 
     is_ai_toolkit = model_type in [ImageModelType.Z_IMAGE.value, ImageModelType.QWEN_IMAGE.value]
 
@@ -288,7 +299,8 @@ def run_training(model_type, config_path):
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
-            bufsize=1
+            bufsize=1,
+            env=env
         )
         
         for line in process.stdout:
