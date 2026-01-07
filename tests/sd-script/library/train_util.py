@@ -4869,6 +4869,7 @@ def get_optimizer(args, trainable_params) -> tuple[str, str, object]:
         if optimizer_type == "AdamW8bit".lower():
             logger.info(f"use 8-bit AdamW optimizer | {optimizer_kwargs}")
             optimizer_class = bnb.optim.AdamW8bit
+            optimizer_kwargs.pop("decouple", None) # Guard for incompatible arg
             optimizer = optimizer_class(trainable_params, lr=lr, **optimizer_kwargs)
 
         elif optimizer_type == "SGDNesterov8bit".lower():
@@ -5068,6 +5069,7 @@ def get_optimizer(args, trainable_params) -> tuple[str, str, object]:
     elif optimizer_type == "AdamW".lower():
         logger.info(f"use AdamW optimizer | {optimizer_kwargs}")
         optimizer_class = torch.optim.AdamW
+        optimizer_kwargs.pop("decouple", None) # Guard for incompatible arg
         optimizer = optimizer_class(trainable_params, lr=lr, **optimizer_kwargs)
 
     elif optimizer_type.endswith("schedulefree".lower()):
