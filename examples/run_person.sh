@@ -35,7 +35,9 @@ docker run --rm --gpus all \
   --volume "$(pwd)/scripts:/workspace/scripts:rw" \
   --volume "$(pwd)/core:/workspace/core:rw" \
   --name "image-trainer-$TASK_ID" \
+  --entrypoint /bin/bash \
   standalone-image-trainer \
+  /workspace/scripts/run_image_trainer.sh \
   --task-id "$TASK_ID" \
   --model "$MODEL" \
   --dataset-zip "$DATASET_ZIP" \
